@@ -40,7 +40,7 @@ The easiest way to get the API and Database running:
 ```bash
 docker-compose up --build
 ```
-The API will be available at `http://localhost:5000`.
+The API will be available at `http://localhost:5000` (Docker) or `http://localhost:5279` (Local).
 
 ### 3. Running Locally (Development)
 Ensure you have a PostgreSQL instance running as specified in the `.env`.
@@ -52,8 +52,10 @@ dotnet run
 ```
 
 ## API Documentation
-- **REST API**: [http://localhost:5000/swagger](http://localhost:5000/swagger)
-- **GraphQL IDE**: [http://localhost:5000/graphql](http://localhost:5000/graphql)
+- **REST API (Local)**: [http://localhost:5279/swagger](http://localhost:5279/swagger)
+- **REST API (Docker)**: [http://localhost:5000/swagger](http://localhost:5000/swagger)
+- **GraphQL IDE (Local)**: [http://localhost:5279/graphql](http://localhost:5279/graphql)
+- **GraphQL IDE (Docker)**: [http://localhost:5000/graphql](http://localhost:5000/graphql)
 
 ## Architecture Notes
 - **SOLID Principles**: The project uses a Service Layer abstraction to decouple business logic from API controllers and resolvers.
