@@ -1,0 +1,227 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>BlogAPI</name>
+    </assembly>
+    <members>
+        <member name="M:BlogAPI.Controllers.ArticlesController.GetArticles">
+            <summary>
+            Retrieves all articles with their comments and vote scores.
+            </summary>
+        </member>
+        <member name="M:BlogAPI.Controllers.ArticlesController.GetArticle(System.Int32)">
+            <summary>
+            Retrieves a specific article by ID.
+            </summary>
+        </member>
+        <member name="M:BlogAPI.Controllers.ArticlesController.CreateArticle(BlogAPI.Models.Article)">
+            <summary>
+            Creates a new blog post. (Requires Authentication)
+            </summary>
+        </member>
+        <member name="M:BlogAPI.Controllers.ArticlesController.UpdateArticle(System.Int32,BlogAPI.Models.Article)">
+            <summary>
+            Updates an existing blog post. (Requires Authentication and Ownership)
+            </summary>
+        </member>
+        <member name="M:BlogAPI.Controllers.ArticlesController.DeleteArticle(System.Int32)">
+            <summary>
+            Deletes a blog post. (Requires Authentication and Ownership)
+            </summary>
+        </member>
+        <member name="M:BlogAPI.Controllers.AuthController.Login(BlogAPI.Models.LoginModel)">
+            <summary>
+            Authenticates a user and returns a JWT token.
+            </summary>
+        </member>
+        <member name="M:BlogAPI.Controllers.CommentsController.AddComment(System.Int32,System.String)">
+            <summary>
+            Adds a comment to an article. (Requires Authentication)
+            </summary>
+        </member>
+        <member name="M:BlogAPI.Controllers.CommentsController.Vote(System.Int32,System.Int32)">
+            <summary>
+            Votes on a comment. (IP-based, unique)
+            </summary>
+            <param name="commentId">Target comment ID</param>
+            <param name="value">Vote value: 1 for upvote, -1 for downvote</param>
+        </member>
+        <member name="T:BlogAPI.Models.Article">
+            <summary>
+            Represents Article entity
+            </summary>
+        </member>
+        <member name="P:BlogAPI.Models.Article.Id">
+            <summary>
+            Gets or sets the unique identifier for the article.
+            This is typically the primary key in a database.
+            </summary>
+        </member>
+        <member name="P:BlogAPI.Models.Article.Title">
+            <summary>
+            Gets or sets the title of the article.
+            This is a concise heading for the content.
+            </summary>
+        </member>
+        <member name="P:BlogAPI.Models.Article.Perex">
+            <summary>
+            Gets or sets the perex (summary or excerpt) of the article.
+            This provides a brief overview before the full content.
+            </summary>
+        </member>
+        <member name="P:BlogAPI.Models.Article.Content">
+            <summary>
+            Gets or sets the main content of the article.
+            This holds the full body of the article.
+            </summary>
+        </member>
+        <member name="P:BlogAPI.Models.Article.Timestamp">
+            <summary>
+            Gets or sets the timestamp when the article was created or last updated.
+            This provides chronological information.
+            </summary>
+        </member>
+        <member name="P:BlogAPI.Models.Article.Comments">
+            <summary>
+            Gets or sets the collection of comments associated with this article.
+            This establishes a one-to-many relationship: one Article can have many Comments.
+            </summary>
+        </member>
+        <member name="P:BlogAPI.Models.Article.User">
+            <summary>
+            Gets or sets the collection of users associated with the article.
+            This establishes a one-to-many relationship: one User can have many Articles.
+            </summary>
+        </member>
+        <member name="T:BlogAPI.Models.AuthResponse">
+            <summary>
+            Simple class for authentication validation
+            </summary>
+        </member>
+        <member name="T:BlogAPI.Models.Comment">
+            <summary>
+            Represents a comment on an article.
+            </summary>
+        </member>
+        <member name="P:BlogAPI.Models.Comment.Id">
+            <summary>
+            Unique identifier for the comment.
+            </summary>
+        </member>
+        <member name="P:BlogAPI.Models.Comment.Content">
+            <summary>
+            Main text content of the comment.
+            </summary>
+        </member>
+        <member name="P:BlogAPI.Models.Comment.Timestamp">
+            <summary>
+            Date and time when the comment was posted.
+            </summary>
+        </member>
+        <member name="P:BlogAPI.Models.Comment.ArticleId">
+            <summary>
+            ID of the article this comment belongs to.
+            </summary>
+        </member>
+        <member name="P:BlogAPI.Models.Comment.Article">
+            <summary>
+            Associated Article object.
+            </summary>
+        </member>
+        <member name="P:BlogAPI.Models.Comment.UserId">
+            <summary>
+            ID of the user who authored the comment.
+            </summary>
+        </member>
+        <member name="P:BlogAPI.Models.Comment.User">
+            <summary>
+            Associated User (author) object.
+            </summary>
+        </member>
+        <member name="P:BlogAPI.Models.Comment.Votes">
+            <summary>
+            Collection of votes associated with this comment.
+            </summary>
+        </member>
+        <member name="P:BlogAPI.Models.Comment.Score">
+            <summary>
+            Calculated field for the total score of the comment (sum of all votes).
+            </summary>
+        </member>
+        <member name="T:BlogAPI.Models.LoginModel">
+            <summary>
+            Simple DTO for login request
+            </summary>
+        </member>
+        <member name="T:BlogAPI.Models.User">
+            <summary>
+            Represents User which is author of articles and comments
+            </summary>
+        </member>
+        <member name="P:BlogAPI.Models.User.UserId">
+            <summary>
+            Gets or sets the unique identifier for the user.
+            This is typically the primary key in a database.
+            </summary>
+        </member>
+        <member name="P:BlogAPI.Models.User.Username">
+            <summary>
+            Gets or sets the username of the user.
+            This should be unique and is often used for login.
+            </summary>
+        </member>
+        <member name="P:BlogAPI.Models.User.Email">
+            <summary>
+            Gets or sets the email address of the user.
+            This should also typically be unique.
+            </summary>
+        </member>
+        <member name="P:BlogAPI.Models.User.PasswordHash">
+            <summary>
+            Gets or sets the hashed password for the user.
+            </summary>
+        </member>
+        <member name="P:BlogAPI.Models.User.Articles">
+            <summary>
+            Gets or sets the collection of articles authored by this user.
+            This establishes a one-to-many relationship: one User can author many Articles.
+            </summary>
+        </member>
+        <member name="P:BlogAPI.Models.User.Comments">
+            <summary>
+            Gets or sets the collection of comments made by this user.
+            This establishes a one-to-many relationship: one User can make many Comments.
+            </summary>
+        </member>
+        <member name="T:BlogAPI.Models.Vote">
+            <summary>
+            Represents a vote on a comment.
+            </summary>
+        </member>
+        <member name="P:BlogAPI.Models.Vote.Id">
+            <summary>
+            Unique identifier for the vote.
+            </summary>
+        </member>
+        <member name="P:BlogAPI.Models.Vote.Value">
+            <summary>
+            Value of the vote: +1 or -1.
+            </summary>
+        </member>
+        <member name="P:BlogAPI.Models.Vote.IpAddress">
+            <summary>
+            IP address of the user who voted. Used to ensure unique votes per comment.
+            </summary>
+        </member>
+        <member name="P:BlogAPI.Models.Vote.CommentId">
+            <summary>
+            ID of the comment being voted on.
+            </summary>
+        </member>
+        <member name="P:BlogAPI.Models.Vote.Comment">
+            <summary>
+            Associated Comment object.
+            </summary>
+        </member>
+    </members>
+</doc>

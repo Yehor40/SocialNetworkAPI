@@ -38,5 +38,5 @@ public class User
     /// Gets or sets the collection of comments made by this user.
     /// This establishes a one-to-many relationship: one User can make many Comments.
     /// </summary>
-    public ICollection<Comments> Comments { get; set; } = new List<Comments>();
+    public ICollection<Comment> Comments { get; set; } = new List<Comment>();
 }
