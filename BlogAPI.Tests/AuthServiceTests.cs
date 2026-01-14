@@ -2,6 +2,7 @@ using BlogAPI.Data;
 using BlogAPI.Models;
 using BlogAPI.Services;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using Moq;
 using Xunit;
@@ -11,24 +12,26 @@ namespace BlogAPI.Tests;
 public class AuthServiceTests
 {
     private readonly Mock<ILogger<AuthService>> _mockLogger;
+    private readonly Mock<IConfiguration> _mockConfiguration;
     private readonly AuthService _authService;
     private readonly ApplicationDbContext _context;
 
     public AuthServiceTests()
     {
         _mockLogger = new Mock<ILogger<AuthService>>();
+        _mockConfiguration = new Mock<IConfiguration>();
         
-        // Set environment variables for tests
-        Environment.SetEnvironmentVariable("JWT_KEY", "ThisIsAVerySecretKeyForMyBloggingEngine2026");
-        Environment.SetEnvironmentVariable("JWT_ISSUER", "BlogAPI");
-        Environment.SetEnvironmentVariable("JWT_AUDIENCE", "BlogApp");
+        // Set up IConfiguration mock
+        _mockConfiguration.Setup(c => c["JWT_KEY"]).Returns("ThisIsAVerySecretKeyForMyBloggingEngine2026");
+        _mockConfiguration.Setup(c => c["JWT_ISSUER"]).Returns("BlogAPI");
+        _mockConfiguration.Setup(c => c["JWT_AUDIENCE"]).Returns("BlogApp");
 
         var options = new DbContextOptionsBuilder<ApplicationDbContext>()
             .UseInMemoryDatabase(databaseName: "AuthTest")
             .Options;
         _context = new ApplicationDbContext(options);
 
-        _authService = new AuthService(_context, _mockLogger.Object);
+        _authService = new AuthService(_context, _mockLogger.Object, _mockConfiguration.Object);
     }
 
     [Fact]
