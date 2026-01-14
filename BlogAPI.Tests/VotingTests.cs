@@ -1,7 +1,6 @@
 using BlogAPI.Data;
 using BlogAPI.Models;
 using Microsoft.EntityFrameworkCore;
-using Xunit;
 
 namespace BlogAPI.Tests;
 

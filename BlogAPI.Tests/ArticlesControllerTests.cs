@@ -5,7 +5,6 @@ using BlogAPI.Services;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Moq;
-using Xunit;
 
 namespace BlogAPI.Tests;
 
