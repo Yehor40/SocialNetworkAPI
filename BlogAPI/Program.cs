@@ -8,10 +8,11 @@ using Microsoft.OpenApi.Models;
 var builder = WebApplication.CreateBuilder(args);
 
 // Load .env file
-DotNetEnv.Env.Load();
+DotNetEnv.Env.TraversePath().Load();
 
-// Construct connection string from environment variables
-var connectionString = Environment.GetEnvironmentVariable("DefaultConnection");
+// Construct connection string from configuration
+var connectionString = builder.Configuration.GetConnectionString("DefaultConnection") 
+                       ?? builder.Configuration["DefaultConnection"];
 
 // Add services to the container.
 builder.Services.AddControllers();
@@ -57,9 +58,19 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseNpgsql(connectionString));
 
 // Configure JWT Authentication
-var jwtKey = Environment.GetEnvironmentVariable("JWT_KEY")!;
-var jwtIssuer = Environment.GetEnvironmentVariable("JWT_ISSUER")!;
-var jwtAudience = Environment.GetEnvironmentVariable("JWT_AUDIENCE")!;
+var jwtKey = Environment.GetEnvironmentVariable("JWT_KEY")
+             ?? throw new InvalidOperationException("JWT_KEY is not configured");
+
+var jwtIssuer = Environment.GetEnvironmentVariable("JWT_ISSUER")
+                ?? throw new InvalidOperationException("JWT_ISSUER is not configured");
+
+var jwtAudience = Environment.GetEnvironmentVariable("JWT_AUDIENCE")
+                  ?? throw new InvalidOperationException("JWT_AUDIENCE is not configured");
+
+Console.WriteLine($"JWT_KEY: {jwtKey}");
+Console.WriteLine($"JWT_ISSUER: {jwtIssuer}");
+Console.WriteLine($"JWT_AUDIENCE: {jwtAudience}");
+
 var key = Encoding.ASCII.GetBytes(jwtKey);
 
 builder.Services.AddAuthentication(x =>
@@ -94,14 +105,21 @@ builder.Services
 
 var app = builder.Build();
 
+// Apply migrations on startup
+using (var scope = app.Services.CreateScope())
+{
+    var db = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
+    db.Database.Migrate();
+}
+
 // Configure the HTTP request pipeline.
+app.UseMiddleware<BlogAPI.Middleware.ExceptionHandlingMiddleware>();
+
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
     app.UseSwaggerUI();
 }
-
-app.UseMiddleware<BlogAPI.Middleware.ExceptionHandlingMiddleware>();
 
 app.UseWebSockets();
 app.UseRouting();
@@ -111,12 +129,5 @@ app.UseAuthorization();
 
 app.MapControllers();
 app.MapGraphQL();
-
-// Apply migrations on startup
-using (var scope = app.Services.CreateScope())
-{
-    var db = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
-    db.Database.Migrate();
-}
 
 app.Run();
