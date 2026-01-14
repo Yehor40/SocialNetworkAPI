@@ -39,17 +39,29 @@
         "net7.0": {
           "targetAlias": "net7.0",
           "dependencies": {
-            "BCrypt": {
-              "target": "Package",
-              "version": "[1.0.0, )"
-            },
             "BCrypt.Net-Next": {
               "target": "Package",
               "version": "[4.0.3, )"
             },
-            "EntityFramework": {
+            "DotNetEnv": {
               "target": "Package",
-              "version": "[6.5.1, )"
+              "version": "[3.1.1, )"
+            },
+            "HotChocolate.AspNetCore": {
+              "target": "Package",
+              "version": "[13.9.0, )"
+            },
+            "HotChocolate.AspNetCore.Authorization": {
+              "target": "Package",
+              "version": "[13.9.0, )"
+            },
+            "HotChocolate.Data.EntityFramework": {
+              "target": "Package",
+              "version": "[13.9.0, )"
+            },
+            "Microsoft.AspNetCore.Authentication.JwtBearer": {
+              "target": "Package",
+              "version": "[7.0.0, )"
             },
             "Microsoft.EntityFrameworkCore": {
               "target": "Package",
@@ -61,13 +73,13 @@
               "target": "Package",
               "version": "[7.0.0, )"
             },
-            "MySql.EntityFrameworkCore": {
+            "Npgsql.EntityFrameworkCore.PostgreSQL": {
               "target": "Package",
               "version": "[7.0.0, )"
             },
-            "Swashbuckle.AspNetCore.SwaggerGen": {
+            "Swashbuckle.AspNetCore": {
               "target": "Package",
-              "version": "[8.0.0, )"
+              "version": "[6.5.0, )"
             }
           },
           "imports": [

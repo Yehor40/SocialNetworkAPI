@@ -42,7 +42,7 @@ public class Article
     /// Gets or sets the collection of comments associated with this article.
     /// This establishes a one-to-many relationship: one Article can have many Comments.
     /// </summary>
-    public ICollection<Comments> Comments { get; set; } = new List<Comments>();
+    public ICollection<Comment> Comments { get; set; } = new List<Comment>();
     
     /// <summary>
     /// Gets or sets the collection of users associated with the article.
