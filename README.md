@@ -3,7 +3,7 @@
 A robust, single-user blogging engine implemented in .NET 7, following SOLID principles and featuring both REST and GraphQL APIs.
 
 ## Tech Stack
-- **Framework**: .NET 7 (ASP.NET Core)
+- **Framework**: .NET 8 (ASP.NET Core)
 - **Database**: PostgreSQL 15
 - **ORM**: Entity Framework Core
 - **API**: 
@@ -21,7 +21,7 @@ A robust, single-user blogging engine implemented in .NET 7, following SOLID pri
 - **Documentation**: Comprehensive Swagger UI and GraphQL schema docs.
 
 ## Prerequisites
-- [.NET 7 SDK](https://dotnet.microsoft.com/download/dotnet/7.0)
+- [.NET 8 SDK](https://dotnet.microsoft.com/download/dotnet/8.0)
 - [Docker & Docker Compose](https://docs.docker.com/get-docker/)
 
 ## Getting Started
