@@ -1,27 +1,40 @@
-version: '3.4'
+version: '3.8'
 
 services:
   db:
     image: postgres:15-alpine
+    platform: linux/amd64
+    container_name: blog_db
     environment:
       - POSTGRES_PASSWORD=root
       - POSTGRES_USER=yh
       - POSTGRES_DB=blogdb
     ports:
       - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U yh -d blogdb"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 10s
 
   api:
-    image: ${DOCKER_REGISTRY-}blogapi
+    env_file:
+      - .env
     build:
       context: .
       dockerfile: BlogAPI/Dockerfile
+    container_name: blog_api
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
-      - DefaultConnection=Host=db;Database=blogdb;Username=yh;Password=root
-      - JWT_KEY=ThisIsAVerySecretKeyForMyBloggingEngine2026
-      - JWT_ISSUER=BlogAPI
-      - JWT_AUDIENCE=BlogApp
+      - ASPNETCORE_URLS=http://+:8080
     ports:
-      - "5000:80"
+      - "8080:8080"
     depends_on:
-      - db
+      db:
+        condition: service_healthy
+
+volumes:
+  postgres_data:
