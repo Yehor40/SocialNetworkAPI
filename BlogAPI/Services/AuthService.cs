@@ -12,11 +12,13 @@ public class AuthService : IAuthService
 {
     private readonly ApplicationDbContext _context;
     private readonly ILogger<AuthService> _logger;
+    private readonly IConfiguration _configuration;
 
-    public AuthService(ApplicationDbContext context, ILogger<AuthService> logger)
+    public AuthService(ApplicationDbContext context, ILogger<AuthService> logger, IConfiguration configuration)
     {
         _context = context;
         _logger = logger;
+        _configuration = configuration;
     }
 
     public async Task<string?> LoginAsync(string username, string password)
@@ -35,9 +37,9 @@ public class AuthService : IAuthService
 
     public string GenerateJwtToken(User user)
     {
-        var jwtKey = Environment.GetEnvironmentVariable("JWT_KEY")!;
-        var jwtIssuer = Environment.GetEnvironmentVariable("JWT_ISSUER")!;
-        var jwtAudience = Environment.GetEnvironmentVariable("JWT_AUDIENCE")!;
+        var jwtKey = _configuration["JWT_KEY"] ?? throw new InvalidOperationException("JWT_KEY is not configured.");
+        var jwtIssuer = _configuration["JWT_ISSUER"] ?? throw new InvalidOperationException("JWT_ISSUER is not configured.");
+        var jwtAudience = _configuration["JWT_AUDIENCE"] ?? throw new InvalidOperationException("JWT_AUDIENCE is not configured.");
         
         var key = Encoding.ASCII.GetBytes(jwtKey);
         var tokenHandler = new JwtSecurityTokenHandler();
